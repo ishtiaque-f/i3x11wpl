@@ -12,8 +12,9 @@ bloat — just a fast overlay for switching wallpapers.
 
 ## Screenshots
 
-![i3x11wpl search view](~/i3x11wpl/screenshot_1.png)
-![i3x11wpl wallpaper list](~/i3x11wpl/screenshot_2.png)
+![i3x11wpl search view](screenshot_1.png)
+
+![i3x11wpl wallpaper list](screenshot_2.png)
 
 ## Features
 
