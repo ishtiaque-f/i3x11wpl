@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Launcher for i3x11wpl (i3 + X11 + Wallpaper Picker Launcher).
+# Resolves symlinks (so it still works after being symlinked into
+# ~/.local/bin), then finds the project's venv Python if one exists,
+# falling back to system python3 otherwise. Lets you just run:
+#   i3x11wpl
+# from anywhere, with no manual `source venv/bin/activate` needed.
+set -euo pipefail
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+
+if [ -x "$PROJECT_DIR/venv/bin/python" ]; then
+    PYTHON="$PROJECT_DIR/venv/bin/python"
+else
+    PYTHON="python3"
+fi
+
+exec "$PYTHON" "$PROJECT_DIR/main.py" "$@"

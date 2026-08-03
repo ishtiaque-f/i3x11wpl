@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=i3x11wpl
+Comment=i3 + X11 wallpaper picker launcher (Rofi-style)
+Exec=__EXEC__
+Terminal=false
+Categories=Utility;Settings;
+NoDisplay=false
