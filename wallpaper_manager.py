@@ -6,12 +6,13 @@ caching thumbnails, detecting the currently-set wallpaper, and
 invoking feh to apply a new one.
 """
 import hashlib
+import re
 import subprocess
 from pathlib import Path
 
 from PIL import Image
 
-SUPPORTED_EXTS = {".png", ".jpg", ".jpeg", ".webp"}
+SUPPORTED_EXTS = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
 
 
 class Wallpaper:
@@ -52,7 +53,10 @@ class WallpaperManager:
             return []
 
         wallpapers = []
-        for entry in sorted(self.wallpaper_dir.iterdir()):
+        for entry in sorted(
+            self.wallpaper_dir.iterdir(),
+            key=lambda p: [int(t) if t.isdigit() else t.lower() for t in re.split(r"(\d+)", p.name)],
+        ):
             if not entry.is_file() or entry.suffix.lower() not in SUPPORTED_EXTS:
                 continue
 
@@ -82,7 +86,7 @@ class WallpaperManager:
                 img.thumbnail((self.thumb_size, self.thumb_size), Image.LANCZOS)
                 img.save(dst, "PNG")
         except Exception as e:
-            print(f"[i3x11wpl] failed to generate thumbnail for {src}: {e}")
+            print(f"[wallpaper-picker] failed to generate thumbnail for {src}: {e}")
 
     @staticmethod
     def get_current_wallpaper():
